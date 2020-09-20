@@ -26,6 +26,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button btnGetAllData;
     private String allKickBoxers;
 
+    private Button btnTransition;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         edtKickPower = findViewById(R.id.edtKickPower);
         txtGetData = findViewById(R.id.txtData);
         btnGetAllData = findViewById(R.id.btnGetAllData);
+        btnTransition=findViewById(R.id.btnNextActivity);
 
         txtGetData.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,6 +74,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 allKickBoxers="";
 
                 ParseQuery<ParseObject> queryAll = ParseQuery.getQuery("KickBoxer");
+
+//                queryAll.whereGreaterThan("punchPower",3000);
+                queryAll.whereGreaterThanOrEqualTo("punchPower",3000);
+                queryAll.setLimit(1);
+
                 queryAll.findInBackground(new FindCallback<ParseObject>() {
 
 
@@ -104,6 +112,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 });
 
 
+        btnTransition.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+
+            }
+        });
     }
     @Override
     public void onClick(View view) {
@@ -113,10 +129,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             final ParseObject kickboxer = new ParseObject("KickBoxer");
             kickboxer.put("name", edtName.getText().toString());
-            kickboxer.put("punch_speed", Integer.parseInt(edtPunchSpeed.getText().toString()));
-            kickboxer.put("punch_power", Integer.parseInt(edtPunchPower.getText().toString()));
-            kickboxer.put("kick_speed", Integer.parseInt(edtKickSpeed.getText().toString()));
-            kickboxer.put("kick_power", Integer.parseInt(edtKickPower.getText().toString()));
+            kickboxer.put("punchSpeed", Integer.parseInt(edtPunchSpeed.getText().toString()));
+            kickboxer.put("punchPower", Integer.parseInt(edtPunchPower.getText().toString()));
+            kickboxer.put("kickSpeed", Integer.parseInt(edtKickSpeed.getText().toString()));
+            kickboxer.put("kickPower", Integer.parseInt(edtKickPower.getText().toString()));
 
 
             kickboxer.saveInBackground(new SaveCallback() {
